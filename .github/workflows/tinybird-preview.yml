@@ -28,6 +28,6 @@ jobs:
       - name: Install Tinybird CLI
         run: curl https://tinybird.co | sh
       - name: Create branch
-        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch create tmp_ci_${{ github.head_ref }} --last-partition
+        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch create tmp_ci_${{ github.head_ref }} --last-partition --wait
       - name: Build and deploy
         run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} --branch=tmp_ci_${{ github.head_ref }} build
