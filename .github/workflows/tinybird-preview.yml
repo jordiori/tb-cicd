@@ -27,6 +27,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Tinybird CLI
         run: curl https://tinybird.co | sh
+      - name: Show tb version
+        run: tb --version
       # - name: Remove existing branch
       #   run: tb --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch rm tmp_ci_${{ github.head_ref }} --yes || true
       # - name: Create branch
