@@ -1,0 +1,10 @@
+SCHEMA >
+    `day` Date `json:$.day`,
+    `station` String `json:$.station`,
+    `abslevel` Nullable(Float32) `json:$.abslevel`,
+    `percentagevolume` Float32 `json:$.percentagevolume`,
+    `volume` Float32 `json:$.volume`
+
+ENGINE "MergeTree"
+ENGINE_PARTITION_KEY "station"
+ENGINE_SORTING_KEY "day, station"
