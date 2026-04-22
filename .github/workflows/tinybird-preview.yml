@@ -30,12 +30,12 @@ jobs:
       - name: Show tb version
         run: tb --version
       - name: List branches
-        run: tb --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch ls
+        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch ls
       - name: List workspaces
-        run: tb --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} workspace ls
+        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} workspace ls
       # - name: Remove existing branch
       #   run: tb --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch rm tmp_ci_${{ github.head_ref }} --yes || true
-      - name: Create branch
-        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch create tmp_ci_${{ github.head_ref }} --last-partition --wait
+      # - name: Create branch
+      #   run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch create tmp_ci_${{ github.head_ref }} --last-partition --wait
       - name: Build and deploy
-        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} --branch=tmp_ci_${{ github.head_ref }} build
+        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} build
