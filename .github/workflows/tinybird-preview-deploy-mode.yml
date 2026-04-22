@@ -1,0 +1,41 @@
+
+name: Tinybird - CI Workflow
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+      - master
+    types: [opened, reopened, labeled, unlabeled, synchronize]
+    paths:
+      - 'tinybird/**'
+
+concurrency: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+
+env:
+  TINYBIRD_HOST: ${{ secrets.TINYBIRD_HOST }}
+  TINYBIRD_TOKEN: ${{ secrets.TINYBIRD_TOKEN }}
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'tinybird'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Tinybird CLI
+        run: curl https://tinybird.co | sh
+      - name: Show tb version
+        run: tb --version
+      - name: List branches
+        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch ls
+      - name: List workspaces
+        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} workspace ls
+      - name: Remove existing branch
+        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch rm tmp_ci_${{ github.head_ref }} --yes || true
+      - name: Create branch
+        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch create tmp_ci_${{ github.head_ref }} --last-partition --wait
+      - name: Build and deploy
+        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} --branch=tmp_ci_${{ github.head_ref }} build
