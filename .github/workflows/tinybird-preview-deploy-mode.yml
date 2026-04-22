@@ -33,8 +33,8 @@ jobs:
         run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch ls
       - name: List workspaces
         run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} workspace ls
-      - name: Remove existing branch
-        run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch rm tmp_ci_${{ github.head_ref }} --yes || true
+      # - name: Remove existing branch
+      #   run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch rm tmp_ci_${{ github.head_ref }} --yes || true
       - name: Create branch
         run: tb --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} branch create tmp_ci_${{ github.head_ref }} --last-partition --wait
       - name: Build and deploy
